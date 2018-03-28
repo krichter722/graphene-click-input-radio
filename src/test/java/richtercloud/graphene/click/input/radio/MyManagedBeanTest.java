@@ -1,11 +1,14 @@
 package richtercloud.graphene.click.input.radio;
 
+import com.google.common.io.Files;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
+import org.apache.commons.io.FileUtils;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.drone.api.annotation.Drone;
 import org.jboss.arquillian.junit.Arquillian;
@@ -23,6 +26,8 @@ import org.jboss.shrinkwrap.api.spec.WebArchive;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -66,17 +71,35 @@ public class MyManagedBeanTest {
     private URL deploymentUrl;
     @FindBy(id = "mainForm:mainSelectOneRadio:0")
     private WebElement mainSelectOneRadioOption0;
-    @FindBy(id = "mainForm:mainSelectOneRadioPrime:0")
+    @FindBy(css = "[for='mainForm:mainSelectOneRadioPrime:0']")
     private WebElement mainSelectOneRadioPrimeOption0;
+    @FindBy(id = "mainForm:mainSelectOneButtonPrime:0")
+    private WebElement mainSelectOneButtonPrimeOption0;
+    private final File screenshotDir;
+    private int screenshotCounter = 0;
+
+    public MyManagedBeanTest() {
+        this.screenshotDir = Files.createTempDir();
+        LOGGER.info(String.format("screenshot directory is '%s'",
+                screenshotDir.getAbsolutePath()));
+    }
 
     /**
      * Test of getMyProperty method, of class MyManagedBean.
      */
     @Test
-    public void testAll() {
+    public void testAll() throws IOException {
         browser.get(deploymentUrl.toExternalForm()+"index.xhtml");
         LOGGER.debug(browser.getPageSource());
         mainSelectOneRadioOption0.click();
         mainSelectOneRadioPrimeOption0.click();
+        mainSelectOneButtonPrimeOption0.click();
+        screenshot();
+    }
+
+    private void screenshot() throws IOException {
+        File scrFile = ((TakesScreenshot)browser).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(scrFile, new File(screenshotDir, String.valueOf(screenshotCounter)));
+        screenshotCounter++;
     }
 }

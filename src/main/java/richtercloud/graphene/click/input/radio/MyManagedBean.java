@@ -12,6 +12,8 @@ public class MyManagedBean {
     private String[] myProperties = new String[] {"a", "b", "c"};
     private String myPropertyPrime;
     private String[] myPropertiesPrime = new String[] {"aPrime", "bPrime", "cPrime"};
+    private String myPropertyButtonPrime;
+    private String[] myPropertiesButtonPrime = new String[] {"aPrime", "bPrime", "cPrime"};
 
     public MyManagedBean() {
     }
@@ -46,5 +48,21 @@ public class MyManagedBean {
 
     public void setMyPropertiesPrime(String[] myPropertiesPrime) {
         this.myPropertiesPrime = myPropertiesPrime;
+    }
+
+    public String getMyPropertyButtonPrime() {
+        return myPropertyButtonPrime;
+    }
+
+    public void setMyPropertyButtonPrime(String myPropertyButtonPrime) {
+        this.myPropertyButtonPrime = myPropertyButtonPrime;
+    }
+
+    public String[] getMyPropertiesButtonPrime() {
+        return myPropertiesButtonPrime;
+    }
+
+    public void setMyPropertiesButtonPrime(String[] myPropertiesButtonPrime) {
+        this.myPropertiesButtonPrime = myPropertiesButtonPrime;
     }
 }
